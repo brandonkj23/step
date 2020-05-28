@@ -27,7 +27,7 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
-function addRandomFacts(){
+function addRandomFact(){
     const facts =
         ['My favoirite show is Everybody hates Chris','I have 2 siblings',
         'I used to live in Germany as a baby','My favorite video game is God of war'];
