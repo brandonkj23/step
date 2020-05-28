@@ -18,6 +18,10 @@
     margin-top: 20px;
 }
 
+footer {
+  display: block;
+}
+
 
 #greeting-container {
   margin-top: 20px;
