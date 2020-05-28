@@ -8,20 +8,22 @@
     padding: 30px;
     font-size: 40px;
     text-align: center;
-    background: white;
+    color: white;
+    background: dimgrey;
 }
 
 #row{
-    padding: 30px;
+    padding: 20px;
     font-size: 20px;
     background: white;
     margin-top: 20px;
 }
 
 footer {
-  display: block;
+  padding: 20px;
   font-size: 20px;
   color: blue;
+  background: lightgray;
 }
 
 
