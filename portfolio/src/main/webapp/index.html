@@ -4,15 +4,41 @@
     <meta charset="UTF-8">
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
     <script src="script.js"></script>
   </head>
-  <body>
-    <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+  <body style="background-color:dimgrey;">
+    <nav class="w3-bar w3-black">
+        <a href="index.html" class="w3-button w3-bar-item">Home</a>
+        <a href="mydogs.html" class="w3-button w3-bar-item">My Dogs</a>
+    </nav>
+    <div id = "header">Brandon's portfolio</div>
+    <div id = "row">
+        <h2><center>About me</center></h2>
+        <p> 
+            I am a sophmore computer science major at Morhouse house college
+            from Grovetown Georgia. Currently I am working as a STEP intern
+            for google.
+        </p>
+        <h3><center>Background</center></h3>
+        <p>
+            I was born in Florida, on May 23, 2001. My father joined the army,
+            so we had to move around alot. What got me into computer science was
+            the class I took in Highschool. Before that I did not know what major
+            I wanted to go into, but after during the class I felt it fit the best.
+        </p>
+        <div id="content">
+            <center>
+            <p>Click here to get a random fact about me:</p>
+            <button onclick="addRandomFact()">Hello</button>
+            <div id="fact-container"></div></center>
+        </div>
     </div>
+    <footer>
+       <p>
+            <a href="https://github.com/brandonkj23">Github</a>
+            <a href="https://linkedin.com/in/brandon-jones-319547192">Linkedin</a>
+       </p>
+    </footer>
   </body>
 </html>

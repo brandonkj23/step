@@ -4,6 +4,29 @@
   width: 650px;
 }
 
+#header{
+    padding: 30px;
+    font-size: 40px;
+    text-align: center;
+    color: white;
+    background: dimgrey;
+}
+
+#row{
+    padding: 20px;
+    font-size: 20px;
+    background: white;
+    margin-top: 20px;
+}
+
+footer {
+  padding: 20px;
+  font-size: 20px;
+  color: blue;
+  background: lightgray;
+}
+
+
 #greeting-container {
   margin-top: 20px;
 }
