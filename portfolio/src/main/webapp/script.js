@@ -39,7 +39,22 @@ function addRandomFact(){
 }
 
 function getQuote() {
-  fetch('/data').then(response => response.text()).then((quote) => {
-    document.getElementById('quote-container').innerText = quote;
+  fetch('/data').then(response => response.json()).then((quote) => {
+    const statsListElement = document.getElementById('quote-container');
+    statsListElement.innerHTML = '';
+    statsListElement.appendChild(
+        createListElement('First Name: ' + quote.firstName));
+    statsListElement.appendChild(
+        createListElement('Last Name: ' + quote.lastName));
+    statsListElement.appendChild(
+        createListElement('Age: ' + quote.age));
   });
+
+    //document.getElementById('quote-container').innerText = quote;
+
+}
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }
