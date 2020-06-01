@@ -26,14 +26,22 @@ import java.util.*;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-    ArrayList<String> list = new ArrayList<String>(
-        Arrays.asList("Brandon", "Jones", "18")); 
+    private ArrayList<String> list;
+
+    @Override
+    public void init(){
+        list = new ArrayList<String>();
+            list.add("Brandon");
+            list.add("Jones");
+            list.add("18"); 
+    }   
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
     String Json = convertToJson(list);
     //response.getWriter().println("<h1>Hello Brandon!</h1>");
+    response.setContentType("application/json;");
     response.getWriter().println(Json);
 
   }
@@ -46,7 +54,7 @@ public class DataServlet extends HttpServlet {
   public String convertToJson(ArrayList<String> list){
       String json = "{";
       json += "\"firstName\": \""+ list.get(0)+"\", ";
-      json += "\"lastName\": " + list.get(1)+"\", ";
+      json += "\"lastName\": \"" + list.get(1)+"\", ";
       json += "\"age\": \""+ list.get(2)+"\"}";
       return json;
   }
