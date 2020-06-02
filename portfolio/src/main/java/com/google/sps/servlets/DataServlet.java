@@ -31,18 +31,17 @@ public class DataServlet extends HttpServlet {
     @Override
     public void init(){
         list = new ArrayList<String>();
-            list.add("Brandon");
-            list.add("Jones");
-            list.add("18"); 
+            list.add("Nice website");
+            list.add("I like the site");
+            list.add("good job"); 
     }   
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
-    String Json = convertToJson(list);
-    //response.getWriter().println("<h1>Hello Brandon!</h1>");
+    String json = convertToJsonUsingGson(list);
     response.setContentType("application/json;");
-    response.getWriter().println(Json);
+    response.getWriter().println(json);
 
   }
   private String convertToJsonUsingGson(ArrayList<String> list) {
@@ -51,12 +50,5 @@ public class DataServlet extends HttpServlet {
     return json;
   }
 
-  public String convertToJson(ArrayList<String> list){
-      String json = "{";
-      json += "\"firstName\": \""+ list.get(0)+"\", ";
-      json += "\"lastName\": \"" + list.get(1)+"\", ";
-      json += "\"age\": \""+ list.get(2)+"\"}";
-      return json;
-  }
 
 }
