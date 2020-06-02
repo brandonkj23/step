@@ -37,3 +37,23 @@ function addRandomFact(){
     const factContainer = document.getElementById('fact-container');
     factContainer.innerText = fact;
 }
+
+function getQuote() {
+  fetch('/data').then(response => response.json()).then((quote) => {
+    const statsListElement = document.getElementById('quote-container');
+    statsListElement.innerHTML = '';
+    statsListElement.appendChild(
+        createListElement(quote[0]));
+    statsListElement.appendChild(
+        createListElement(quote[1]));
+    statsListElement.appendChild(
+        createListElement(quote[2]));
+  });
+
+
+}
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
