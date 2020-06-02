@@ -43,14 +43,13 @@ function getQuote() {
     const statsListElement = document.getElementById('quote-container');
     statsListElement.innerHTML = '';
     statsListElement.appendChild(
-        createListElement('First Name: ' + quote.firstName));
+        createListElement(quote[0]));
     statsListElement.appendChild(
-        createListElement('Last Name: ' + quote.lastName));
+        createListElement(quote[1]));
     statsListElement.appendChild(
-        createListElement('Age: ' + quote.age));
+        createListElement(quote[2]));
   });
 
-    //document.getElementById('quote-container').innerText = quote;
 
 }
 function createListElement(text) {
