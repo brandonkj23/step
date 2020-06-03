@@ -38,16 +38,14 @@ function addRandomFact(){
     factContainer.innerText = fact;
 }
 
-function getQuote() {
-  fetch('/data').then(response => response.json()).then((quote) => {
-    const statsListElement = document.getElementById('quote-container');
-    statsListElement.innerHTML = '';
-    statsListElement.appendChild(
-        createListElement(quote[0]));
-    statsListElement.appendChild(
-        createListElement(quote[1]));
-    statsListElement.appendChild(
-        createListElement(quote[2]));
+function getComment() {
+  fetch('/data').then(response => response.json()).then((comment) => {
+    const statsListElement = document.getElementById('comment-container');
+     statsListElement.innerHTML = '';
+    for (i = 0; i < comment.length; i++) {
+        statsListElement.appendChild(
+        createListElement(comment[i]));
+    };
   });
 
 
