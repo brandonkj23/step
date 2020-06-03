@@ -29,26 +29,35 @@ public class DataServlet extends HttpServlet {
     private ArrayList<String> list;
 
     @Override
-    public void init(){
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.setContentType("text/html;");
+        String json = convertToJsonUsingGson(list);
+        response.setContentType("application/json;");
+        response.getWriter().println(json);
+    }
+
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        String text = getParameter(request, "text-input", "");
         list = new ArrayList<String>();
-            list.add("Nice website");
-            list.add("I like the site");
-            list.add("good job"); 
-    }   
+           list.add(text);
+        response.sendRedirect("/index.html");
+    }
 
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    String json = convertToJsonUsingGson(list);
-    response.setContentType("application/json;");
-    response.getWriter().println(json);
 
-  }
-  private String convertToJsonUsingGson(ArrayList<String> list) {
-    Gson gson = new Gson();
-    String json = gson.toJson(list);
-    return json;
-  }
+    private String convertToJsonUsingGson(ArrayList<String> list) {
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        return json;
+    }
+
+    private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+        String value = request.getParameter(name);
+        if (value == null) {
+        return defaultValue;
+        }
+        return value;
+    }
 
 
 }
