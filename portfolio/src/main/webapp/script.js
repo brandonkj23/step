@@ -43,8 +43,7 @@ function getComment() {
     const statsListElement = document.getElementById('comment-container');
      statsListElement.innerHTML = '';
     for (i = 0; i < comment.length; i++) {
-        statsListElement.appendChild(
-        createListElement(comment[i]));
+        statsListElement.appendChild(createListElement(comment[i]));
     };
   });
 
