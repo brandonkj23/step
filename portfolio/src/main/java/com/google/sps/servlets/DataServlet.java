@@ -15,6 +15,7 @@
 package com.google.sps.servlets;
 
 import com.google.sps.data.Comments;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -42,15 +43,20 @@ public class DataServlet extends HttpServlet {
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
 
+        int max = Integer.parseInt(getParameter(request,"max-number","5"));
+
         List<String> comments = new ArrayList<>();
+        int counter = 0;
         for (Entity entity : results.asIterable()) {           
             String comment = (String) entity.getProperty("comment");
-            comments.add(comment);
-    }
+            if(max > counter){
+                comments.add(comment);
+            }
+            counter++;
+        }
 
         Gson gson = new Gson();
         
-
         response.setContentType("application/json;");
         response.getWriter().println(gson.toJson(comments));
     }
