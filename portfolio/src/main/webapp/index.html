@@ -44,9 +44,11 @@
     </footer>
     <h2>Comments</h2>
             <form action="/data" method = "POST">
+                <p>Choose number of comments</p>
+                <input type="number" name="max-number" min="0" max="10" value="1"><br>
                 <textarea name="text-input"></textarea>
                 <input type="submit" />
-                <div id="comment-container"<div>
+                <div id="comment-container"</div>
             </form>
   </body>
 </html>
