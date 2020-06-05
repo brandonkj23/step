@@ -39,18 +39,35 @@ function addRandomFact(){
 }
 
 function getComment() {
-  fetch('/data').then(response => response.json()).then((comment) => {
+  fetch('/data').then(response => response.json()).then((comments) => {
     const statsListElement = document.getElementById('comment-container');
-     statsListElement.innerHTML = '';
-    for (i = 0; i < comment.length; i++) {
-        statsListElement.appendChild(createListElement(comment[i]));
+    statsListElement.innerHTML = '';
+    for (i = 0; i < comments.length; i++) {
+        statsListElement.appendChild(createListElement(comments[i]));
     };
   });
 
-
 }
-function createListElement(text) {
+
+function createListElement(comment) {
   const liElement = document.createElement('li');
-  liElement.innerText = text;
+  liElement.innerText = comment.comment;
+
+  const deleteButtonElement = document.createElement('button');
+  deleteButtonElement.innerText = 'Delete';
+  deleteButtonElement.addEventListener('click', () => {
+    deleteComment(comment);
+
+    // Remove the task from the DOM.
+    liElement.remove();
+  });
+
+  liElement.appendChild(deleteButtonElement);
   return liElement;
+}
+
+function deleteComment(comment){
+  const params = new URLSearchParams();
+  params.append('id', comment.id);
+  fetch('/delete-comment', {method: 'POST', body: params});
 }
