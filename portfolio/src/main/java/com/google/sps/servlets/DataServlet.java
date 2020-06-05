@@ -22,6 +22,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.Gson;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -34,23 +36,27 @@ import java.util.*;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-    private Comments list = new Comments();
-
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Query query = new Query("Comment");//.addSort(/**"timestamp",*/ SortDirection.DESCENDING);
+        Query query = new Query("Comments").addSort("timestamp", SortDirection.DESCENDING);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(query);
 
         int max = Integer.parseInt(getParameter(request,"max-number","5"));
+        //int max = Math.min(Integer.parseInt(getParameter(request,"max-number","5"),results.size()));
 
-        List<String> comments = new ArrayList<>();
+        //List<Entity> results = r.asList(FetchOptions.Builder.withDefaults());
+
+        List<Comments> comments = new ArrayList<>();
         int counter = 0;
-        for (Entity entity : results.asIterable()) {           
+        for (Entity entity : results.asIterable()) {  
+            long id = entity.getKey().getId();         
             String comment = (String) entity.getProperty("comment");
+            long timestamp = (long) entity.getProperty("timestamp");
             if(max > counter){
-                comments.add(comment);
+                Comments cmt = new Comments(id,comment,timestamp);
+                comments.add(cmt);
             }
             counter++;
         }
@@ -63,9 +69,9 @@ public class DataServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        String text = getParameter(request, "text-input", "");
+        String text = request.getParameter("text-input");
 
-        Entity commentEntity = new Entity("Comment");
+        Entity commentEntity = new Entity("Comments");
         commentEntity.setProperty("timestamp", System.currentTimeMillis());
         commentEntity.setProperty("comment",text);
 
