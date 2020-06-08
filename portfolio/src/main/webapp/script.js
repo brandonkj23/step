@@ -51,7 +51,10 @@ function getComment() {
 
 function createListElement(comment) {
   const liElement = document.createElement('li');
-  liElement.innerText = comment.comment;
+  var name = comment.name;
+  var com = comment.comment;
+  liElement.innerHTML = `<div id = \\"comments\\"><h2>By ${name}</h2><p>${com}`
+  '</div>';
 
   const deleteButtonElement = document.createElement('button');
   deleteButtonElement.innerText = 'Delete';
