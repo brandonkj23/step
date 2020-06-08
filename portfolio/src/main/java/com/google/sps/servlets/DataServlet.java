@@ -44,7 +44,6 @@ public class DataServlet extends HttpServlet {
         PreparedQuery results = datastore.prepare(query);
 
         int max = Integer.parseInt(getParameter(request,"max-number","5"));
-        //int max = Math.min(Integer.parseInt(getParameter(request,"max-number","5"),results.size()));
 
         //List<Entity> results = r.asList(FetchOptions.Builder.withDefaults());
 
