@@ -54,8 +54,9 @@ public class DataServlet extends HttpServlet {
             long id = entity.getKey().getId();         
             String comment = (String) entity.getProperty("comment");
             long timestamp = (long) entity.getProperty("timestamp");
+            String name = (String) entity.getProperty("name");
             if(max > counter){
-                Comments cmt = new Comments(id,comment,timestamp);
+                Comments cmt = new Comments(id,comment,timestamp,name);
                 comments.add(cmt);
             }
             counter++;
@@ -70,10 +71,12 @@ public class DataServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
         String text = request.getParameter("text-input");
+        String name = request.getParameter("name-input");
 
         Entity commentEntity = new Entity("Comments");
         commentEntity.setProperty("timestamp", System.currentTimeMillis());
         commentEntity.setProperty("comment",text);
+        commentEntity.setProperty("name",name);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(commentEntity);
