@@ -10,8 +10,4 @@ public class UserInfo{
         this.isUserLoggedIn = isUserLoggedIn;
         this.email = email;
     }
-    public UserInfo(){
-        isUserLoggedIn = true;
-        email = "";
-    }
 }
