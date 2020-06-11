@@ -57,13 +57,14 @@ function getUserInfo(){
       const liElement = document.createElement('li');
       liElement.innerHTML = '<h2>Comments</h2>'+
       '<form action="/data" method = "POST">'+
-          '<p>Choose number of comments</p>'+
-          '<input type="number" name="max-number" min="0" max="10" ><br>'+
-          '<textarea placeholder="Enter your name" name="name-input" cols="20" rows="1"></textarea><br>'+
-          '<textarea placeholder="Enter a message" name="text-input" cols="30" rows="3"></textarea>'+
-          '<input type="submit" />'+
-          '<div id="comment-container"></div>'+
-          '<p>Logout <a href= "/user">here</a>.</p>'+
+        '<p>Logged in as '+ userInfo.email +'</p>'+
+        '<p>Choose number of comments</p>'+
+        '<input type="number" name="max-number" min="0" max="10" ><br>'+
+        //'<textarea placeholder="Enter your name" name="name-input" cols="20" rows="1"></textarea><br>'+
+        '<textarea placeholder="Enter a message" name="text-input" cols="30" rows="3"></textarea>'+
+        '<input type="submit" />'+
+        '<div id="comment-container"></div>'+
+        '<p>Logout <a href= "/user">here</a>.</p>'+
       '</form>';
       statsListElement.appendChild(liElement);
     }else{
