@@ -49,9 +49,39 @@ function getComment() {
 
 }
 
+function getUserInfo(){
+  fetch('/loggedin').then(response => response.json()).then((userInfo) => {
+    const statsListElement = document.getElementById('comment-section-container');
+    statsListElement.innerHtML = '';
+    if(userInfo.isUserLoggedIn){
+      const liElement = document.createElement('li');
+      liElement.innerHTML = '<h2>Comments</h2>'+
+      '<form action="/data" method = "POST">'+
+          '<p>Choose number of comments</p>'+
+          '<input type="number" name="max-number" min="0" max="10" ><br>'+
+          '<textarea placeholder="Enter your name" name="name-input" cols="20" rows="1"></textarea><br>'+
+          '<textarea placeholder="Enter a message" name="text-input" cols="30" rows="3"></textarea>'+
+          '<input type="submit" />'+
+          '<div id="comment-container"></div>'+
+          '<p>Logout <a href= "/user">here</a>.</p>'+
+      '</form>';
+      statsListElement.appendChild(liElement);
+    }else{
+      const liElement = document.createElement('li');
+      liElement.innerHTML = '<p>Login <a href= "/user">here</a>.</p>';
+      statsListElement.appendChild(liElement);
+    }
+  });
+  getComment();
+}
+
+
 function createListElement(comment) {
   const liElement = document.createElement('li');
-  liElement.innerText = comment.comment;
+  var name = comment.name;
+  var com = comment.comment;
+  liElement.innerHTML = `<div id = \\"comments\\"><h2>By ${name}</h2><p>${com}`
+  '</div>';
 
   const deleteButtonElement = document.createElement('button');
   deleteButtonElement.innerText = 'Delete';
