@@ -58,6 +58,9 @@ input[type = submit]{
 #comment-container{
   list-style-type: none;
 }
+#comment-section-container{
+  list-style-type: none;
+}
 
 #greeting-container {
   margin-top: 20px;
