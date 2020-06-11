@@ -68,7 +68,7 @@ function getUserInfo(){
       statsListElement.appendChild(liElement);
     }else{
       const liElement = document.createElement('li');
-      liElement.innerHTML = '<p>Login <a href= "/user">here</a>.</p>';
+      liElement.innerHTML = '<p>Login <a href= "/user">here</a> to see comments.</p>';
       statsListElement.appendChild(liElement);
     }
   });
