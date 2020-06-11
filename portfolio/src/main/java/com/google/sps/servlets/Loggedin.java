@@ -29,11 +29,16 @@ public class Loggedin extends HttpServlet {
 
     UserService userService = UserServiceFactory.getUserService();
     boolean isUserLoggedIn = userService.isUserLoggedIn();
+    String urlToRedirectToAfterLoginChange = "/index.html";
     String email = "";
+    String url = "";
       if(isUserLoggedIn){
        email = userService.getCurrentUser().getEmail();
+       url = userService.createLogoutURL(urlToRedirectToAfterLoginChange);
+      }else{
+       url = userService.createLoginURL(urlToRedirectToAfterLoginChange);
       }
-    UserInfo userInfo = new UserInfo(isUserLoggedIn,email);
+    UserInfo userInfo = new UserInfo(isUserLoggedIn,email,url);
       
 
     Gson gson = new Gson();
