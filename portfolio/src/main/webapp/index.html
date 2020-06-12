@@ -34,7 +34,18 @@
             <button onclick="addRandomFact()">Hello</button>
             <div id="fact-container"></div></center>
         </div>
-        <div id = "comment-section-container"></div>
+        <div id = "comment-section-container">
+          <form action="/data" method = "POST">
+            <div id = "email-container"></div>
+            <p>Choose number of comments</p>
+            <input type="number" name="max-number" min="0" max="10" ><br>
+            <textarea placeholder="Enter a message" name="text-input" cols="30" rows="3"></textarea>
+            <input type="submit" />
+            <div id="comment-container"></div>
+            <div id = "logout-url"></div>
+          </form>
+        </div>
+        <div id = "login-url"></div>
     </div>
     <footer>
        <p><center>
