@@ -51,25 +51,23 @@ function getComment() {
 
 function getUserInfo(){
   fetch('/loggedin').then(response => response.json()).then((userInfo) => {
-    const statsListElement = document.getElementById('comment-section-container');
-    statsListElement.innerHtML = '';
+    const commentSectionElement = document.getElementById('comment-section-container');
+    commentSectionElement.style.display = "none";
+    const emailElement = document.getElementById('email-container');
+    emailElement.style.display = "none";
+    const loginUrlElement = document.getElementById('login-url');
+    loginUrlElement.style.display = "none";
+    const logoutUrlElement = document.getElementById('logout-url');
+    logoutUrlElement.style.display = "none";
     if(userInfo.isUserLoggedIn){
-      const liElement = document.createElement('li');
-      liElement.innerHTML = '<h2>Comments</h2>'+
-      '<form action="/data" method = "POST">'+
-        '<p>Logged in as "'+ userInfo.email +'"</p>'+
-        '<p>Choose number of comments</p>'+
-        '<input type="number" name="max-number" min="0" max="10" ><br>'+
-        '<textarea placeholder="Enter a message" name="text-input" cols="30" rows="3"></textarea>'+
-        '<input type="submit" />'+
-        '<div id="comment-container"></div>'+
-        '<p>Logout <a href="'+ userInfo.logInUrl +'">here</a>.</p>'+
-      '</form>';
-      statsListElement.appendChild(liElement);
+      commentSectionElement.style.display = "block";
+      emailElement.innerHTML = '<p>Logged in as "'+ userInfo.email +'"</p>';
+      emailElement.style.display = "block";
+      logoutUrlElement.innerHTML = '<p>Logout <a href="'+userInfo.logInUrl+'">here</a>.</p>';
+      logoutUrlElement.style.display = "block";
     }else{
-      const liElement = document.createElement('li');
-      liElement.innerHTML = '<p>Login <a href= "'+userInfo.logInUrl+'">here</a> to see comments.</p>';
-      statsListElement.appendChild(liElement);
+      loginUrlElement.innerHTML = '<p>Login <a href= "'+userInfo.logInUrl+'">here</a> to see comments.</p>';
+      loginUrlElement.style.display = "block";
     }
   });
   getComment();
