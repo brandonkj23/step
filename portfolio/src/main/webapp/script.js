@@ -49,9 +49,37 @@ function getComment() {
 
 }
 
+function getUserInfo(){
+  fetch('/loggedin').then(response => response.json()).then((userInfo) => {
+    const commentSectionElement = document.getElementById('comment-section-container');
+    commentSectionElement.style.display = "none";
+    const emailElement = document.getElementById('email-container');
+    emailElement.style.display = "none";
+    const loginUrlElement = document.getElementById('login-url');
+    loginUrlElement.style.display = "none";
+    const logoutUrlElement = document.getElementById('logout-url');
+    logoutUrlElement.style.display = "none";
+    if(userInfo.isUserLoggedIn){
+      commentSectionElement.style.display = "block";
+      emailElement.innerHTML = '<p>Logged in as "'+ userInfo.email +'"</p>';
+      emailElement.style.display = "block";
+      logoutUrlElement.innerHTML = '<p>Logout <a href="'+userInfo.logInUrl+'">here</a>.</p>';
+      logoutUrlElement.style.display = "block";
+    }else{
+      loginUrlElement.innerHTML = '<p>Login <a href= "'+userInfo.logInUrl+'">here</a> to see comments.</p>';
+      loginUrlElement.style.display = "block";
+    }
+  });
+  getComment();
+}
+
+
 function createListElement(comment) {
   const liElement = document.createElement('li');
-  liElement.innerText = comment.comment;
+  var name = comment.name;
+  var com = comment.comment;
+  liElement.innerHTML = `<div id = \\"comments\\"><h2>By ${name}</h2><p>${com}`
+  '</div>';
 
   const deleteButtonElement = document.createElement('button');
   deleteButtonElement.innerText = 'Delete';
