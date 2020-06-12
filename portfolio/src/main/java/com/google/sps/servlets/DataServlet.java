@@ -47,8 +47,6 @@ public class DataServlet extends HttpServlet {
 
         int max = Integer.parseInt(getParameter(request,"max-number","5"));
 
-        //List<Entity> results = r.asList(FetchOptions.Builder.withDefaults());
-
         List<Comments> comments = new ArrayList<>();
         int counter = 0;
         for (Entity entity : results.asIterable()) {  
