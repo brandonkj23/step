@@ -28,32 +28,33 @@ public final class FindMeetingQuery {
 
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     ArrayList<TimeRange> ranges = new ArrayList<>();
-    if((events == NO_EVENTS&& request.getDuration()<=TimeRange.WHOLE_DAY.duration()) 
+    if((events.equals(NO_EVENTS) && request.getDuration()<=TimeRange.WHOLE_DAY.duration()) 
       || request.getAttendees() == NO_ATTENDEES){
       ranges.add(TimeRange.WHOLE_DAY);
       return ranges;
     }else if(request.getDuration() > TimeRange.WHOLE_DAY.duration()){
       return ranges;
     }
+    ArrayList<TimeRange> eRanges = new ArrayList<>();
     Collection<String> attendees = request.getAttendees();
     for(Event event: events){
       Collection<String> eAttendees = event.getAttendees();
       for(String attendee: attendees){
         if(eAttendees.contains(attendee)||eAttendees.isEmpty()){
-          ranges.add(event.getWhen());
+          eRanges.add(event.getWhen());
         }
       }
     }
-    if(ranges.size()==0){
-      ranges.add(TimeRange.WHOLE_DAY);
-      return ranges;
+    if(eRanges.size()==0){
+      eRanges.add(TimeRange.WHOLE_DAY);
+      return eRanges;
     }
     Collection<TimeRange> overlapedRanges = new ArrayList<>();
-    if(ranges.size()>1){
-      ranges.sort(TimeRange.ORDER_BY_START);
-      TimeRange r1 = ranges.get(0);
-      for(int i = 1; i < ranges.size();i++){
-        TimeRange r2 = ranges.get(i);
+    if(eRanges.size()>1){
+      eRanges.sort(TimeRange.ORDER_BY_START);
+      TimeRange r1 = eRanges.get(0);
+      for(int i = 1; i < eRanges.size();i++){
+        TimeRange r2 = eRanges.get(i);
         if(r1.overlaps(r2)){
           if(r1.contains(r2)){
             overlapedRanges.add(TimeRange.fromStartEnd(r1.start(), r1.end(), false));
@@ -62,15 +63,15 @@ public final class FindMeetingQuery {
           }
         }else{
           overlapedRanges.add(TimeRange.fromStartEnd(r1.start(), r1.end(), false));
-          if(i+1 >= ranges.size()){
+          if(i+1 >= eRanges.size()){
             overlapedRanges.add(TimeRange.fromStartEnd(r2.start(), r2.end(), false));
           }else{
             r1 = r2;
           }
         }
       }
-    }else if(ranges.size()==1){
-      overlapedRanges.add(TimeRange.fromStartEnd(ranges.get(0).start(), ranges.get(0).end(), false));
+    }else if(eRanges.size()==1){
+      overlapedRanges.add(TimeRange.fromStartEnd(eRanges.get(0).start(), eRanges.get(0).end(), false));
     }
     Collection<TimeRange> validRanges = getValidTimes(overlapedRanges,request.getDuration());
   return validRanges;
