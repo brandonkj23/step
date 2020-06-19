@@ -23,18 +23,9 @@ import java.util.Iterator;
 import java.util.List;
 
 public final class FindMeetingQuery {
-  private static final Collection<Event> NO_EVENTS = Collections.emptySet();
-  private static final Collection<String> NO_ATTENDEES = Collections.emptySet();
 
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    ArrayList<TimeRange> ranges = new ArrayList<>();
-    if((events.equals(NO_EVENTS) && request.getDuration()<=TimeRange.WHOLE_DAY.duration()) 
-      || request.getAttendees() == NO_ATTENDEES){
-      ranges.add(TimeRange.WHOLE_DAY);
-      return ranges;
-    }else if(request.getDuration() > TimeRange.WHOLE_DAY.duration()){
-      return ranges;
-    }
+
     ArrayList<TimeRange> eRanges = new ArrayList<>();
     Collection<String> attendees = request.getAttendees();
     for(Event event: events){
@@ -45,41 +36,29 @@ public final class FindMeetingQuery {
         }
       }
     }
-    if(eRanges.size()==0){
-      eRanges.add(TimeRange.WHOLE_DAY);
-      return eRanges;
-    }
     Collection<TimeRange> overlapedRanges = new ArrayList<>();
-    if(eRanges.size()>1){
       eRanges.sort(TimeRange.ORDER_BY_START);
-      TimeRange r1 = eRanges.get(0);
-      for(int i = 1; i < eRanges.size();i++){
-        TimeRange r2 = eRanges.get(i);
-        if(r1.overlaps(r2)){
-          if(r1.contains(r2)){
-            overlapedRanges.add(TimeRange.fromStartEnd(r1.start(), r1.end(), false));
-          }else{
-            overlapedRanges.add(TimeRange.fromStartEnd(r1.start(), r2.end(), false));
-          }
-        }else{
-          overlapedRanges.add(TimeRange.fromStartEnd(r1.start(), r1.end(), false));
-          if(i+1 >= eRanges.size()){
-            overlapedRanges.add(TimeRange.fromStartEnd(r2.start(), r2.end(), false));
-          }else{
-            r1 = r2;
+      for(int i = 0; i < eRanges.size();i++){
+        TimeRange currentUnion = eRanges.get(i);
+        if(i+1 < eRanges.size()){          
+          TimeRange next = eRanges.get(i+1);  
+          if(currentUnion.overlaps(next)){
+            if(!currentUnion.contains(next)){
+            currentUnion = TimeRange.fromStartEnd(currentUnion.start(), next.end(), false);
+            }
+            i++;
           }
         }
+        overlapedRanges.add(currentUnion);
       }
-    }else if(eRanges.size()==1){
-      overlapedRanges.add(TimeRange.fromStartEnd(eRanges.get(0).start(), eRanges.get(0).end(), false));
-    }
     Collection<TimeRange> validRanges = getValidTimes(overlapedRanges,request.getDuration());
   return validRanges;
   }
 
+  // takes ranges of all the events and returns the time slots that fit the requested duration
   public Collection<TimeRange> getValidTimes(Collection<TimeRange> ranges, long duration){
     Collection<TimeRange> validRange = new ArrayList<>();
-    if(ranges.size()==0){
+    if(duration > TimeRange.WHOLE_DAY.duration()){
       return validRange;
     }
     int start = TimeRange.START_OF_DAY;
