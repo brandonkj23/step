@@ -22,7 +22,6 @@ public class Greeter {
    * Returns a greeting for the given name.
    */
   public String greet(String name) {
-    String newName = name.replaceAll("\\s", "");
-    return "Hello " + newName;
+    return "Hello " + name.trim();
   }
 }
