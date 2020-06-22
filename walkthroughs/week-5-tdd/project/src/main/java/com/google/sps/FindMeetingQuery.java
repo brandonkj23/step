@@ -15,6 +15,7 @@
 package com.google.sps;
 
 import java.sql.Time;
+import java.time.chrono.Era;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,7 +37,7 @@ public final class FindMeetingQuery {
         }
       }
     }
-    Collection<TimeRange> overlapedRanges = new ArrayList<>();
+    List<TimeRange> overlapedRanges = new ArrayList<>();
       eRanges.sort(TimeRange.ORDER_BY_START);
       for(int i = 0; i < eRanges.size();i++){
         TimeRange currentUnion = eRanges.get(i);
@@ -49,14 +50,16 @@ public final class FindMeetingQuery {
             i++;
           }
         }
-        overlapedRanges.add(currentUnion);
+        if(!(i+2 < eRanges.size()) || !currentUnion.overlaps(eRanges.get(i+2))){
+          overlapedRanges.add(currentUnion);
+        }
       }
     Collection<TimeRange> validRanges = getValidTimes(overlapedRanges,request.getDuration());
   return validRanges;
   }
 
-  // takes ranges of all the events and returns the time slots that fit the requested duration
-  public Collection<TimeRange> getValidTimes(Collection<TimeRange> ranges, long duration){
+  //for this funciton to work ranges must be a list of sorted TimeRanges with no overlapping intervals
+  public Collection<TimeRange> getValidTimes(List<TimeRange> ranges, long duration){
     Collection<TimeRange> validRange = new ArrayList<>();
     if(duration > TimeRange.WHOLE_DAY.duration()){
       return validRange;
